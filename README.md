@@ -5,6 +5,7 @@
 StockMeta AI is a Windows desktop application that automatically generates titles, keywords, and categories for your stock photos and vector files. Export platform-ready CSV files for **Adobe Stock**, **Shutterstock**, and **Freepik** in seconds instead of hours.
 
 ---
+
 <img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/56fcf765-a733-4333-af7e-9c6ce3ab0ad3" />
 
 ## Download & Install
@@ -14,7 +15,6 @@ StockMeta AI is a Windows desktop application that automatically generates title
 3. Run the installer → follow the wizard
 4. Launch **StockMeta AI** from the Start Menu or Desktop shortcut
 
-> **No Python, no dependencies, no setup required.** Everything is bundled in the installer, including Ghostscript for EPS/vector support.
 
 ### System Requirements
 
@@ -88,7 +88,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 - **Auto-Updater** — Get notified when a new version is available and update with one click
 - **Secure API Key Storage** — Keys stored in Windows Credential Manager, never in config files
 - **Dark / Light / System Theme** — Customizable appearance
-- **Subscription Licensing** — Machine-ID-based activation with 24-hour offline grace period
+- **Subscription Licensing** — Email-based login with device binding (1 account = 1 device) and 24-hour offline grace period; all login screens appear inline in the main window
 - **Detailed Logging** — Rolling log files for troubleshooting (`%APPDATA%\MetadataGenerator\logs\`)
 
 ---
@@ -113,6 +113,23 @@ StockMeta AI is a Windows desktop application that automatically generates title
 ### Output (Image Conversion)
 
 `.jpg`, `.png`
+
+---
+
+## Subscription & Activation
+
+StockMeta AI requires an active subscription to use.
+
+1. Launch the app — the **Sign In** screen appears directly in the main window
+2. Enter your registered email address → click **Send Code** → a 6-digit verification code is sent to your inbox
+3. Enter the code → click **Verify** → the app verifies your subscription and binds to your device
+4. On subsequent launches, sign-in is automatic (session persists)
+5. If you go offline, the app continues to work for up to **24 hours** using cached verification
+6. Your account is bound to one device — attempting to use it on a second device shows a "Device Mismatch" error
+
+Your account email and subscription status are displayed in **Settings** → **Subscription**.
+
+To buy or renew a subscription, click the **Contact Us on Telegram** button shown on status screens, or visit **[t.me/StockMetaAIBot](https://t.me/StockMetaAIBot)**.
 
 ---
 
@@ -198,18 +215,6 @@ You can also check manually from **Settings** → **Check for Updates**.
 
 ---
 
-## Subscription & Activation
-
-StockMeta AI requires an active subscription to use.
-
-1. Launch the app — your **Machine ID** is shown on the activation screen
-2. Share your Machine ID with the developer to activate your subscription
-3. The app verifies your subscription on each launch (requires internet)
-4. If you go offline, the app continues to work for up to **24 hours** using cached verification
-
-Your Machine ID is displayed in **Settings** → **Subscription** at any time.
-
----
 
 ## Troubleshooting
 
@@ -219,7 +224,8 @@ Your Machine ID is displayed in **Settings** → **Subscription** at any time.
 | **EPS thumbnails not loading** | Ensure the app installed correctly; check logs at `%APPDATA%\MetadataGenerator\logs\` |
 | **API key not working** | Verify your key at [Google AI Studio](https://aistudio.google.com/apikey); make sure it has Gemini API access |
 | **Rate limit errors (429)** | The app handles these automatically with backoff; if persistent, wait a few minutes or use a different API key |
-| **Subscription expired** | Contact the developer with your Machine ID to renew |
+| **Subscription expired** | Contact us at [t.me/StockMetaAIBot](https://t.me/StockMetaAIBot) to renew |
+| **Device mismatch** | Your account is bound to another device — contact support to reset |
 | **App won't start after update** | Uninstall → reinstall from the latest release |
 | **CSV is empty** | Check the Results tab — only successful results are written to CSV; failed images are shown but excluded |
 
@@ -236,5 +242,4 @@ StockMeta AI is proprietary software distributed under a subscription license. U
 
 ---
 
-💬 **Support:** [@StockMetaAIBot](https://t.me/StockMetaAIBot)  
-📧 **Contact:** contact@mdalmahmud.com
+**Made by [VibeDev Studio](https://github.com/VibeDev-Studio)**
