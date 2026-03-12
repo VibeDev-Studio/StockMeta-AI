@@ -15,6 +15,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 3. Run the installer → follow the wizard
 4. Launch **StockMeta AI** from the Start Menu or Desktop shortcut
 
+> **No Python, no dependencies, no setup required.** Everything is bundled in the installer, including Ghostscript for EPS/vector support.
 
 ### System Requirements
 
@@ -61,7 +62,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 - **Multi-Platform CSV Export** — Generate ready-to-upload CSVs for Adobe Stock, Shutterstock, and Freepik, each with the correct platform-specific schema
 - **EPS / Vector Support** — Process `.eps` vector files just like raster images — Ghostscript is bundled, no separate installation needed
 - **Batch Processing** — Sends up to 5 images per API call, dramatically reducing processing time and API usage
-- **Smart Model Selection** — Automatically alternates between multiple Gemini models (`gemini-3-flash-preview`, `gemini-2.5-flash`, `gemini-2.5-flash-lite`) for optimal speed and reliability
+- **Smart Model Rotation** — On **any error** (server error, timeout, JSON parse failure), automatically switches to the next available model immediately. Primary models get **two full passes** before falling back to lite models: `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3.1-flash-lite-preview` → `gemini-2.5-flash-lite`. Model health is tracked across batches — recently-failed models are deprioritized within their tier, so the healthiest model always gets the next batch
 - **Accurate Results** — Generates descriptive titles (up to 200 characters), 30–45 relevant keywords, and platform-specific categories
 - **Configurable Extensions** — Choose the filename extension (`.eps`, `.jpg`, `.png`, or original) written in the CSV for each platform
 
@@ -113,23 +114,6 @@ StockMeta AI is a Windows desktop application that automatically generates title
 ### Output (Image Conversion)
 
 `.jpg`, `.png`
-
----
-
-## Subscription & Activation
-
-StockMeta AI requires an active subscription to use.
-
-1. Launch the app — the **Sign In** screen appears directly in the main window
-2. Enter your registered email address → click **Send Code** → a 6-digit verification code is sent to your inbox
-3. Enter the code → click **Verify** → the app verifies your subscription and binds to your device
-4. On subsequent launches, sign-in is automatic (session persists)
-5. If you go offline, the app continues to work for up to **24 hours** using cached verification
-6. Your account is bound to one device — attempting to use it on a second device shows a "Device Mismatch" error
-
-Your account email and subscription status are displayed in **Settings** → **Subscription**.
-
-To buy or renew a subscription, click the **Contact Us on Telegram** button shown on status screens, or visit **[t.me/StockMetaAIBot](https://t.me/StockMetaAIBot)**.
 
 ---
 
@@ -215,6 +199,22 @@ You can also check manually from **Settings** → **Check for Updates**.
 
 ---
 
+## Subscription & Activation
+
+StockMeta AI requires an active subscription to use.
+
+1. Launch the app — the **Sign In** screen appears directly in the main window
+2. Enter your registered email address → click **Send Code** → a 6-digit verification code is sent to your inbox
+3. Enter the code → click **Verify** → the app verifies your subscription and binds to your device
+4. On subsequent launches, sign-in is automatic (session persists)
+5. If you go offline, the app continues to work for up to **24 hours** using cached verification
+6. Your account is bound to one device — attempting to use it on a second device shows a "Device Mismatch" error
+
+Your account email and subscription status are displayed in **Settings** → **Subscription**.
+
+To buy or renew a subscription, click the **Contact Us on Telegram** button shown on status screens, or visit **[t.me/StockMetaAIBot](https://t.me/StockMetaAIBot)**.
+
+---
 
 ## Troubleshooting
 
