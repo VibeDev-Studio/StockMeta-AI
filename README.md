@@ -6,7 +6,8 @@ StockMeta AI is a Windows desktop application that automatically generates title
 
 ---
 
-<img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/56fcf765-a733-4333-af7e-9c6ce3ab0ad3" />
+<img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/00551836-6c97-4a50-b133-fcf4066bd91c" />
+
 
 ## Download & Install
 
@@ -29,6 +30,14 @@ StockMeta AI is a Windows desktop application that automatically generates title
 
 ---
 
+## How to Update (v3.5.2+)
+
+The application **automatically checks for updates on startup**. If a newer version is deployed, a dialog box will prompt you to download the update directly inside the app. Clicking **Yes** will elegantly download the file in the background, trigger the Windows Admin (UAC) prompt, and automatically install the new update for you. You can optionally manually click **Check for Updates** in the **Settings** page.
+
+*(Note: Users on older versions where this bug existed may need to manually download the new setup from the Releases page).*
+
+---
+
 ## Getting Started
 
 ### 1. Set Up Your API Key
@@ -39,16 +48,16 @@ StockMeta AI is a Windows desktop application that automatically generates title
 
 ### 2. Generate Metadata
 
-- Go to the **Generate** tab
+- Go to the **Analyze** tab
 - Click **Browse** → select a folder containing your images
 - Choose your target platforms (Adobe Stock, Shutterstock, Freepik)
-- Configure file extensions per platform if needed (`.eps`, `.jpg`, `.png`, or `original`)
+- Configure file extensions per platform if needed (`.eps`, `.svg`, `.jpg`, `.png`, or `original`)
 - Click **Generate Metadata**
 - View results in the **Results** tab → click **Save CSV**
 
 ### 3. Convert Images (Optional)
 
-- Go to the **Convert** tab
+- Go to the **Prepare** tab
 - Select a folder or individual files
 - Choose output format (JPG or PNG)
 - Click **Convert Images**
@@ -59,12 +68,16 @@ StockMeta AI is a Windows desktop application that automatically generates title
 
 ### AI-Powered Metadata Generation
 
+- **Dual-Layer IP & Policy Risk Detection** — Checks your images against a Gemini Vision ruleset AND a locally tiered metadata dictionary to flag restricted content, brands, or proprietary IP in red before you export.
+- **Dynamic Platform Optimization** — Conserves API tokens and halves generation time by strictly generating schemas and rules only for the platforms you have checked.
 - **Multi-Platform CSV Export** — Generate ready-to-upload CSVs for Adobe Stock, Shutterstock, and Freepik, each with the correct platform-specific schema
-- **EPS / Vector Support** — Process `.eps` vector files just like raster images — Ghostscript is bundled, no separate installation needed
+- **AI Autofix & Regeneration (Pro)** — Intelligently review and regenerate missing or semantically poor keywords and titles using one-click AI-assisted Autofix functionality directly from the Results grid.
+- **Advanced Results Review** — A completely overhauled Results Page featuring platform-tabbed views, sophisticated bulk/per-file export filtering, and persistent local session states.
+- **Vector Support** — Process `.eps` and `.svg` vector files just like raster images; Ghostscript is bundled for EPS and Qt handles SVG
 - **Batch Processing** — Sends up to 5 images per API call, dramatically reducing processing time and API usage
 - **Smart Model Rotation** — On **any error** (server error, timeout, JSON parse failure), automatically switches to the next available model immediately. Primary models get **two full passes** before falling back to lite models: `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3.1-flash-lite-preview` → `gemini-2.5-flash-lite`. Model health is tracked across batches — recently-failed models are deprioritized within their tier, so the healthiest model always gets the next batch
 - **Accurate Results** — Generates descriptive titles (up to 200 characters), 30–45 relevant keywords, and platform-specific categories
-- **Configurable Extensions** — Choose the filename extension (`.eps`, `.jpg`, `.png`, or original) written in the CSV for each platform
+- **Configurable Extensions** — Choose the filename extension (`.eps`, `.svg`, `.jpg`, `.png`, or original) written in the CSV for each platform
 
 ### Reliability & Performance
 
@@ -73,23 +86,25 @@ StockMeta AI is a Windows desktop application that automatically generates title
 - **Crash-Safe Checkpoints** — Progress is saved after every batch; if the app closes unexpectedly, it resumes where it left off
 - **Cancel & Keep Results** — Stop processing at any time and keep all completed results
 - **Retry Failed** — Re-process only the images that failed without re-running everything
-- **Non-Blocking UI** — EPS thumbnails render in background threads with loading animations; the app never freezes
+- **Non-Blocking UI** — EPS and SVG thumbnails render in background threads with loading animations; the app never freezes
 
 ### Image Conversion
 
-- **Format Conversion** — Convert between JPG, PNG, and EPS
+- **Format Conversion** — Convert JPG, PNG, EPS, and SVG inputs to JPG or PNG
 - **Maximum Quality Output** — JPG at quality 100, PNG lossless
-- **EPS Rasterization** — Vector files rendered at native canvas size
-- **Transparency Handling** — PNG transparency composited onto white when converting to JPG
+- **Vector Rasterization** — EPS files are rendered via Ghostscript and SVG files via Qt
+- **Transparency Handling** — PNG/EPS/SVG transparency is composited onto white when converting to JPG
 - **EXIF Preservation** — Metadata carried over to output files
 - **Safe Output** — Automatic `_1`, `_2` suffixes prevent overwriting existing files
 
 ### General
 
+- **In-App Media Deletion** — Permanently toss rejected/IP-flagged images straight from the grid. Purges disk files and memory logs simultaneously.
+- **Custom UI Overlays** — System popups and messagebox alerts have been replaced by visually appealing, blurred-background custom overlay dialogs for a cohesive user experience.
 - **Auto-Updater** — Get notified when a new version is available and update with one click
 - **Secure API Key Storage** — Keys stored in Windows Credential Manager, never in config files
 - **Dark / Light / System Theme** — Customizable appearance
-- **Subscription Licensing** — Email-based login with device binding (1 account = 1 device) and 24-hour offline grace period; all login screens appear inline in the main window
+- **Subscription Licensing** — Email-based login with distinct **Free** and **Pro** tiers, device binding (1 account = 1 device), and 24-hour offline grace period.
 - **Detailed Logging** — Rolling log files for troubleshooting (`%APPDATA%\MetadataGenerator\logs\`)
 
 ---
@@ -106,10 +121,11 @@ StockMeta AI is a Windows desktop application that automatically generates title
 | GIF | `.gif` |
 | BMP | `.bmp` |
 | EPS (Vector) | `.eps` |
+| SVG (Vector) | `.svg` |
 
 ### Input (Image Conversion)
 
-`.jpg`, `.jpeg`, `.png`, `.eps`
+`.jpg`, `.jpeg`, `.png`, `.eps`, `.svg`
 
 ### Output (Image Conversion)
 
@@ -221,7 +237,7 @@ To buy or renew a subscription, click the **Contact Us on Telegram** button show
 | Issue | Solution |
 |---|---|
 | **"Ghostscript not found"** | Reinstall the app — Ghostscript is bundled in the installer |
-| **EPS thumbnails not loading** | Ensure the app installed correctly; check logs at `%APPDATA%\MetadataGenerator\logs\` |
+| **Vector thumbnails not loading** | Ensure the app installed correctly; check logs at `%APPDATA%\MetadataGenerator\logs\` |
 | **API key not working** | Verify your key at [Google AI Studio](https://aistudio.google.com/apikey); make sure it has Gemini API access |
 | **Rate limit errors (429)** | The app handles these automatically with backoff; if persistent, wait a few minutes or use a different API key |
 | **Subscription expired** | Contact us at [t.me/StockMetaAIBot](https://t.me/StockMetaAIBot) to renew |
