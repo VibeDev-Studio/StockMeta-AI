@@ -1,6 +1,6 @@
-# StockMeta AI
+# StockMeta AI v3.7.0
 
-**Bulk metadata generator for stock images & vectors — powered by Google Gemini AI.**
+**Bulk metadata generator for stock images & vectors — powered by Google Gemini and Anthropic Claude APIs.**
 
 StockMeta AI is a Windows desktop application that automatically generates titles, keywords, and categories for your stock photos and vector files. Export platform-ready CSV files for **Adobe Stock**, **Shutterstock**, and **Freepik** in seconds instead of hours.
 
@@ -11,7 +11,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 ## Download & Install
 
 1. Go to the [**Releases**](../../releases/latest) page
-2. Download `StockMetaAI_Setup_x.x.x.exe`
+2. Download `StockMetaAI_Setup_3.7.0.exe`
 3. Run the installer → follow the wizard
 4. Launch **StockMeta AI** from the Start Menu or Desktop shortcut
 
@@ -24,8 +24,8 @@ StockMeta AI is a Windows desktop application that automatically generates title
 | **OS** | Windows 10 / 11 (64-bit) |
 | **RAM** | 4 GB minimum |
 | **Disk** | Up to ~1.2 GB installed (includes vector conversion runtimes) |
-| **Internet** | Required for metadata generation (Gemini API) and license verification |
-| **API Key** | Free Google Gemini API key ([get one here](https://aistudio.google.com/apikey)) |
+| **Internet** | Required for metadata generation (selected Gemini or Claude API) and license verification |
+| **API Key** | A Google Gemini key or an Anthropic Claude API key with API billing enabled |
 
 ---
 
@@ -39,11 +39,15 @@ The application **automatically checks for updates on startup**. If a newer vers
 
 ## Getting Started
 
-### 1. Set Up Your API Key
+### 1. Choose Your Provider, Key, and Model
 
-- Open **StockMeta AI** → go to the **Settings** tab
-- Paste your [Google Gemini API key](https://aistudio.google.com/apikey) → click **Save Key**
-- Your key is stored securely in Windows Credential Manager (never saved to disk as plain text)
+- Open **StockMeta AI** → **Settings** → choose **Google Gemini** or **Anthropic Claude**.
+- Enter the selected provider's key and click **Save Key**. Each provider keeps its own key in Windows Credential Manager. **Show** and **Delete Key** affect only that provider.
+- **Gemini:** Get a key from [Google AI Studio](https://aistudio.google.com/apikey). Leave **AI Model** on automatic selection for model rotation, or enter a supported model ID.
+- **Claude:** Create a key in [Anthropic Console](https://platform.claude.com/settings/keys) and configure API billing. Claude chat subscriptions do not include API billing. Click **Refresh Models** or **Test Connection**, select an available model (or type its exact ID), then **Save Settings**.
+- With no saved Claude selection, StockMeta discovers models and prefers the newest available image-capable Haiku, then Sonnet. The resolved ID is saved and used for the entire job. No Claude model ID is hardcoded.
+
+Connection tests only query model availability; they do not generate content or confirm remaining generation credits. Switching providers preserves both keys and model preferences. A running job keeps the settings it started with.
 
 ### 2. Generate Metadata
 
@@ -67,22 +71,24 @@ The application **automatically checks for updates on startup**. If a newer vers
 
 ### AI-Powered Metadata Generation
 
-- **Dual-Layer IP & Policy Risk Detection** — Checks your images against a Gemini Vision ruleset AND a locally tiered metadata dictionary to flag restricted content, brands, or proprietary IP in red before you export.
+- **Gemini or Claude** — Choose the API provider in Settings for generation, retries, regeneration, and Pro keyword optimization. Both use the same stock platform rules and CSV formats.
+- **Readable Settings Menus** — Provider and model dropdowns have opaque dark backgrounds.
+- **Dual-Layer IP & Policy Risk Detection** — Combines visual checks from the selected provider with shared local metadata rules to flag restricted content, brands, and proprietary IP before export.
 - **Dynamic Platform Optimization** — Conserves API tokens and halves generation time by strictly generating schemas and rules only for the platforms you have checked.
 - **Multi-Platform CSV Export** — Generate ready-to-upload CSVs for Adobe Stock, Shutterstock, and Freepik, each with the correct platform-specific schema
 - **AI Autofix & Regeneration (Pro)** — Intelligently review and regenerate missing or semantically poor keywords and titles using one-click AI-assisted Autofix functionality directly from the Results grid.
 - **Advanced Results Review** — A completely overhauled Results Page featuring platform-tabbed views, sophisticated bulk/per-file export filtering, and persistent local session states.
 - **Vector Support** — Process `.eps` and `.svg` vector files just like raster images; Ghostscript is bundled for EPS and Qt handles SVG
 - **Batch Processing** — Sends up to 5 images per API call, dramatically reducing processing time and API usage
-- **Smart Model Rotation** — On **any error** (server error, timeout, JSON parse failure), automatically switches to the next available model immediately. Primary models get **two full passes** before falling back to lite models: `gemini-3.7-flash` → `gemini-3.6-flash` → `gemini-3.5-flash` → `gemini-3.7-flash` → `gemini-3.6-flash` → `gemini-3.5-flash` → `gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`. Model health is tracked across batches — recently-failed models are deprioritized within their tier, so the healthiest model always gets the next batch
+- **Gemini Automatic Model Rotation** — Automatic Gemini selection uses primary models `gemini-3.8-flash`, `gemini-3.7-flash`, `gemini-3.6-flash`, and `gemini-3.5-flash`, with two passes before `gemini-3.5-flash-lite` and `gemini-3.1-flash-lite` fallbacks. Recent model health influences order. Manual Gemini selection and Claude jobs use a fixed model.
 - **Accurate Results** — Generates Adobe titles containing 15–20 words, 100–150 characters, and the required phrase "Vector Design and Illustration," plus 30–45 relevant keywords and platform-specific categories
 - **Configurable Extensions** — Choose the filename extension (`.eps`, `.svg`, `.jpg`, `.png`, or original) written in the CSV for each platform
 
 ### Reliability & Performance
 
 - **Rate Limit Protection** — Built-in delays between batches with automatic exponential backoff when rate limits are hit
-- **Circuit Breaker** — Automatically switches to fallback models after repeated rate limits
-- **Crash-Safe Checkpoints** — Progress is saved after every batch; if the app closes unexpectedly, it resumes where it left off
+- **Provider-Specific Recovery** — Gemini retains its existing circuit breaker and fallback models. Claude retries transient failures with bounded backoff; credential, billing, permission, and unavailable-model errors stop the job. Errors never switch providers.
+- **Crash-Safe Checkpoints** — Progress is saved atomically after batches with provider/model provenance. To resume a job, keep its original provider/model settings; cancelled/skipped images can be processed again.
 - **Cancel & Keep Results** — Stop processing at any time and keep all completed results
 - **Retry Failed** — Re-process only the images that failed without re-running everything
 - **Non-Blocking UI** — EPS and SVG thumbnails render in background threads with loading animations; the app never freezes
@@ -194,12 +200,15 @@ Vector technical checks follow Adobe's [submission requirements](https://helpx.a
 
 | Setting | Location |
 |---|---|
-| API Key | Windows Credential Manager (via Settings tab) |
+| Gemini and Claude API keys | Separate entries in Windows Credential Manager (via Settings) |
+| AI provider and per-provider models | Settings → AI Provider / AI Model → Save Settings |
 | App preferences | `%APPDATA%\MetadataGenerator\config.json` |
 | Log files | `%APPDATA%\MetadataGenerator\logs\app.log` |
 | Checkpoints | `<output_folder>/<csv_name>_checkpoint.json` (auto-deleted on completion) |
 
 Configurable options include:
+
+- AI provider and separate Gemini/Claude model preferences
 - Target platforms and file extension per platform
 - Output folder for CSVs and converted images
 - Theme (Dark / Light / System)
@@ -243,7 +252,9 @@ To buy or renew a subscription, click the **Contact Us on Telegram** button show
 |---|---|
 | **"Ghostscript not found"** | Reinstall the app — Ghostscript is bundled in the installer |
 | **Vector thumbnails not loading** | Ensure the app installed correctly; check logs at `%APPDATA%\MetadataGenerator\logs\` |
-| **API key not working** | Verify your key at [Google AI Studio](https://aistudio.google.com/apikey); make sure it has Gemini API access |
+| **API key not working** | Select the matching provider in Settings, save its key, and click Test Connection. For Claude, also check Console API billing and model access. |
+| **Claude model unavailable or retired** | In Settings choose Claude → Refresh Models → select a replacement → Save Settings. |
+| **Checkpoint provider/model mismatch** | Restore the job's original provider/model, or select another output folder to start a new job. |
 | **Rate limit errors (429)** | The app handles these automatically with backoff; if persistent, wait a few minutes or use a different API key |
 | **Subscription expired** | Contact us at [t.me/StockMetaAIBot](https://t.me/StockMetaAIBot) to renew |
 | **Device mismatch** | Your account is bound to another device — contact support to reset |
