@@ -8,7 +8,6 @@ StockMeta AI is a Windows desktop application that automatically generates title
 
 <img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/00551836-6c97-4a50-b133-fcf4066bd91c" />
 
-
 ## Download & Install
 
 1. Go to the [**Releases**](../../releases/latest) page
@@ -16,7 +15,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 3. Run the installer → follow the wizard
 4. Launch **StockMeta AI** from the Start Menu or Desktop shortcut
 
-> **No Python, no dependencies, no setup required.** Everything is bundled in the installer, including Ghostscript for EPS/vector support.
+> **No Python or Adobe Illustrator setup required.** Ghostscript and Inkscape 1.4.4 are bundled for EPS → SVG conversion.
 
 ### System Requirements
 
@@ -24,7 +23,7 @@ StockMeta AI is a Windows desktop application that automatically generates title
 |---|---|
 | **OS** | Windows 10 / 11 (64-bit) |
 | **RAM** | 4 GB minimum |
-| **Disk** | ~80 MB installed |
+| **Disk** | Up to ~1.2 GB installed (includes vector conversion runtimes) |
 | **Internet** | Required for metadata generation (Gemini API) and license verification |
 | **API Key** | Free Google Gemini API key ([get one here](https://aistudio.google.com/apikey)) |
 
@@ -55,12 +54,12 @@ The application **automatically checks for updates on startup**. If a newer vers
 - Click **Generate Metadata**
 - View results in the **Results** tab → click **Save CSV**
 
-### 3. Convert Images (Optional)
+### 3. Prepare Files (Optional)
 
 - Go to the **Prepare** tab
 - Select a folder or individual files
-- Choose output format (JPG or PNG)
-- Click **Convert Images**
+- Choose output format (JPG, PNG, or SVG)
+- Click **Prepare Files**
 
 ---
 
@@ -75,8 +74,8 @@ The application **automatically checks for updates on startup**. If a newer vers
 - **Advanced Results Review** — A completely overhauled Results Page featuring platform-tabbed views, sophisticated bulk/per-file export filtering, and persistent local session states.
 - **Vector Support** — Process `.eps` and `.svg` vector files just like raster images; Ghostscript is bundled for EPS and Qt handles SVG
 - **Batch Processing** — Sends up to 5 images per API call, dramatically reducing processing time and API usage
-- **Smart Model Rotation** — On **any error** (server error, timeout, JSON parse failure), automatically switches to the next available model immediately. Primary models get **two full passes** before falling back to lite models: `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3-flash-preview` → `gemini-2.5-flash` → `gemini-3.1-flash-lite-preview` → `gemini-2.5-flash-lite`. Model health is tracked across batches — recently-failed models are deprioritized within their tier, so the healthiest model always gets the next batch
-- **Accurate Results** — Generates descriptive titles (up to 200 characters), 30–45 relevant keywords, and platform-specific categories
+- **Smart Model Rotation** — On **any error** (server error, timeout, JSON parse failure), automatically switches to the next available model immediately. Primary models get **two full passes** before falling back to lite models: `gemini-3.7-flash` → `gemini-3.6-flash` → `gemini-3.5-flash` → `gemini-3.7-flash` → `gemini-3.6-flash` → `gemini-3.5-flash` → `gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`. Model health is tracked across batches — recently-failed models are deprioritized within their tier, so the healthiest model always gets the next batch
+- **Accurate Results** — Generates Adobe titles containing 15–20 words, 100–150 characters, and the required phrase "Vector Design and Illustration," plus 30–45 relevant keywords and platform-specific categories
 - **Configurable Extensions** — Choose the filename extension (`.eps`, `.svg`, `.jpg`, `.png`, or original) written in the CSV for each platform
 
 ### Reliability & Performance
@@ -90,7 +89,11 @@ The application **automatically checks for updates on startup**. If a newer vers
 
 ### Image Conversion
 
-- **Format Conversion** — Convert JPG, PNG, EPS, and SVG inputs to JPG or PNG
+- **Format Conversion** — Convert raster/vector inputs to JPG/PNG and EPS to SVG 1.1
+- **Adobe Technical Preflight** — RGB, one `(0,0)` artboard, 15–65 MP, 45 MB maximum, outlined text, editable paths, and no raster/linked/external/hidden content
+- **Safe Vector Publishing** — Failed validation leaves no output file; successful files report “Adobe technical checks passed”
+- **No Illustrator Required** — Bundled Ghostscript and Inkscape 1.4.4 always handle EPS → SVG
+- **Artboard Alignment** — Conversion preserves the EPS page and internal margins while restricting PDF-import background bleed to the exact SVG artboard
 - **Maximum Quality Output** — JPG at quality 100, PNG lossless
 - **Vector Rasterization** — EPS files are rendered via Ghostscript and SVG files via Qt
 - **Transparency Handling** — PNG/EPS/SVG transparency is composited onto white when converting to JPG
@@ -129,7 +132,9 @@ The application **automatically checks for updates on startup**. If a newer vers
 
 ### Output (Image Conversion)
 
-`.jpg`, `.png`
+`.jpg`, `.png`, `.svg` (EPS input only)
+
+Vector technical checks follow Adobe's [submission requirements](https://helpx.adobe.com/stock/contributor/submit-your-content/submit-vectors/technical-requirements-for-vector-submissions.html). A passed result confirms file-level technical readiness, not guaranteed Adobe Stock acceptance; moderation also evaluates artistic and legal quality.
 
 ---
 
@@ -140,7 +145,7 @@ The application **automatically checks for updates on startup**. If a newer vers
 | Column | Description |
 |---|---|
 | Filename | Asset filename |
-| Title | Descriptive title (max 200 characters) |
+| Title | Concise, buyer-friendly title (15–20 words and 100–150 characters) containing "Vector Design and Illustration" |
 | Keywords | Comma-separated keywords (max 49) |
 | Category | Adobe Stock category number (1–21) |
 | Releases | Model/property releases |
