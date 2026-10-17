@@ -1,4 +1,4 @@
-# StockMeta AI v3.7.0
+# StockMeta AI v3.7.1
 
 **Bulk metadata generator for stock images & vectors — powered by Google Gemini and Anthropic Claude APIs.**
 
